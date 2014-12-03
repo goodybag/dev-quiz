@@ -1,0 +1,71 @@
+body > section {
+
+}
+
+section {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 1s ease-out, transform 0.8s ease-in, z-index 1s linear;
+  opacity: 1;
+  z-index: 2;
+  transform: scale(1);
+
+  .left-door,
+  .right-door {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    transition: transform 0.8s ease-in, box-shadow 0.5s linear;
+    overflow: hidden;
+  }
+
+  .inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+  }
+
+  .right-door > .inner {
+    left: -100%;
+  }
+
+  &.open {
+    transform: scale(2);
+    opacity: 0;
+    pointer-events: none;
+
+    .left-door,
+    .right-door {
+      box-shadow: 0 0 25px rgba( 0, 0, 0, 0.9 );
+    }
+
+    .left-door {
+      transform: translateX( -800px )
+    }
+    .right-door {
+      transform: translateX( 800px )
+    }
+  }
+}
+
+section:not(.open) + section {
+  z-index: 1;
+  transform: scale(0.9);
+  opacity: 0;
+}
+
+.section-white {
+  .left-door, .right-door { background: @white; }
+  color: @black;
+}
+
+.section-red {
+  .left-door, .right-door { background: @red; }
+  color: @white;
+}
