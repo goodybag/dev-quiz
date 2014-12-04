@@ -3,16 +3,18 @@
 /////////
 
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900,100italic,300italic,400italic,500italic,700italic,900italic|Roboto+Slab:400,100,300,700);
+@import url(http://fonts.googleapis.com/css?family=Lobster);
 @import "./variables.less";
 
 // Components
+@import "./components/typography.less";
 @import "./components/containers.less";
 @import "./components/sections.less";
 @import "./components/logos.less";
+@import "./components/footer-bar.less";
 
 html, body {
-  font-family: Roboto;
-  background: @white;
+  background: linear-gradient(to bottom, #fafafa 0%,#eaeaea 100%);
   margin: 0;
   padding: 0;
   width: 100%;
@@ -25,6 +27,20 @@ body {
 }
 
 .intro {
+  .intro-text {
+    text-align: center;
+  }
+
+  .sub-text {
+    font-size: 2.6em;
+    position: absolute;
+    left: 50%;
+    top: 278px;
+    margin-left: -100px;
+    transform: rotate(-15deg);
+    text-shadow: -1px -3px 0 #FFF;
+  }
+
   .logo {
     position: absolute;
     top: 50%;
@@ -32,19 +48,4 @@ body {
     margin-top: -(@logo-watermark-base-size / 2);
     margin-left: -(@logo-watermark-base-size / 2);
   }
-  // .logo {
-  //   position: absolute;
-  //   top: 50%;
-  //   margin-top: -(@logo-watermark-base-size / 2);
-  // }
-
-  // .left-door .logo {
-  //   right: 0;
-  //   margin-right: -(@logo-watermark-base-size / 2);
-  // }
-
-  // .right-door .logo {
-  //   left: 0;
-  //   margin-left: -(@logo-watermark-base-size / 2);
-  // }
 }
