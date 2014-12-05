@@ -2,10 +2,13 @@ View.tagName = 'section';
 
 module.exports = require('../lib/view')( View );
 
+var cid = 0;
+
 function View( logger, $el, options ){
   logger = logger.create('QuestionView', {
     options:  options
   , $el:      $el
+  , test:    'testing'
   });
 
   logger.info('Initializing');
@@ -14,6 +17,7 @@ function View( logger, $el, options ){
     $el:      $el
   , options:  options
   , model:    options.model
+  , cid:      cid++
 
   , render: function(){
       var base = [
@@ -36,6 +40,11 @@ function View( logger, $el, options ){
       , '</div>'
       ].join('\n'));
 
+      if ( this.cid % 2 === 0 ){
+        this.$el.addClass('section-red');
+        logger.info('added red');
+      }
+
       return this;
     }
 
@@ -51,8 +60,8 @@ function View( logger, $el, options ){
     }
 
   , prev: function(){
-      if ( this.$prev ){
-        this.prev.$el.removeClass('open');
+      if ( this.prevView ){
+        this.prevView.$el.removeClass('open');
       }
 
       return this;

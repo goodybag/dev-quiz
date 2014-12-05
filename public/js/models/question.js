@@ -11,7 +11,7 @@ module.exports = {
 module.exports.create = function( data ){
   var question = {};
 
-  utils.extend( questions, data );
+  utils.extend( question, data );
 
   Object.keys( module.exports )
     .filter( function( k ){
@@ -21,5 +21,5 @@ module.exports.create = function( data ){
       question[ k ] = module.exports[ k ];
     });
 
-  Object.create( question );
+  return Object.create( question );
 };
