@@ -20,7 +20,7 @@
     "url": "https://github.com/goodybag/dev-quiz/issues"
   },
   "homepage": "https://github.com/goodybag/dev-quiz",
-  "devDependencies": {
+  "dependencies": {
     "browserify": "^7.0.0",
     "gulp": "^3.8.10",
     "gulp-connect": "^2.2.0",
