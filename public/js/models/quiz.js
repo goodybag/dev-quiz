@@ -10,6 +10,14 @@ module.exports.create = function( data ){
     , possibleSteps:  ['intro', 'questions']
     , _currQuestion:  1
 
+    , set questions ( questions ){
+        if ( !Array.isArray( questions ) ){
+          throw new Error('Must set questions to an array');
+        }
+
+        this.initQuestions();
+      }
+
     , get step (){
         return this._step;
       }
@@ -26,6 +34,19 @@ module.exports.create = function( data ){
         this.emit( 'step:change', s, old );
       }
 
+    , get question (){
+        return this.questions[ this.currQuestion ];
+      }
+
+    , set question( q ){
+        for ( var i = 0; i < this.questions.length; i++ ){
+          if ( q === this.questions[ i ] ){
+            this.currQuestion = i;
+            break;
+          }
+        }
+      }
+
     , get currQuestion (){
         return this._currQuestion;
       }
@@ -40,7 +61,37 @@ module.exports.create = function( data ){
         this._currQuestion = q;
         this.emit( 'question:change', q, old );
       }
+
+    , init: function(){
+        this.initQuestions();
+      }
+
+    , initQuestions: function(){
+        this.questions.forEach( function( question ){
+          question.on('selection:change', function( selection ){
+            if ( this.question === question ){
+              if ( selection !== null ){
+                this.emit( 'question:ready', selection, question, this );
+              } else {
+                this.emit( 'question:not-ready', question, this );
+              }
+            }
+          }.bind( this ));
+        }.bind( this ));
+      }
+
+    , onFirstQuestion: function(){
+        return this.currQuestion === 0;
+      }
+
+    , onLastQuestion: function(){
+        return this.currQuestion === this.questions.length - 1;
+      }
+
+    , readyToContinue: function(){
+        return this.currQuestion
+      }
     }
   , data
-  );
+  ).init();
 };

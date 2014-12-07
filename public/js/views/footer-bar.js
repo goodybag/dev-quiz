@@ -9,7 +9,7 @@ function FooterBarView( logger, $el, options ){
 
   logger.info('Initializing');
 
-  return Object.create({
+  return Object.create( require('events').EventEmitter, {
     $el:      $el
   , options:  options
   , model:    options.model
@@ -25,7 +25,6 @@ function FooterBarView( logger, $el, options ){
 
   , domEvents: function(){
       this.$el.find('.next').click( this.onNextClick.bind( this ) );
-
       this.$el.find('.prev').click( this.onPrevClick.bind( this ) );
     }
 
@@ -33,21 +32,25 @@ function FooterBarView( logger, $el, options ){
       var html = [];
 
       html.push('<nav class="question-nav">');
-
-      if ( this.quiz.currQuestion > 1 ){
-        html.push('  <button class="prev">Previous</button>');
-      }
-
-      if ( this.quiz.currQuestion < this.quiz.questions.length - 1 ){
-        html.push('  <button class="next">Next</button>');
-      }
-
+      html.push('  <button class="hide prev">←</button>');
+      html.push('  <button class="hide next">→</button>');
+      html.push('  <button class="hide finish">✔</button>');
       html.push('</nav>');
 
       this.$el.html( html.join('\n') );
 
       this.domEvents();
 
+      return this;
+    }
+
+  , showBtn: function( btn ){
+      this.$el.find( '.question-nav > .' + btn ).removeClass('hide');
+      return this;
+    }
+
+  , hideBtn: function( btn ){
+      this.$el.find( '.question-nav > .' + btn ).addClass('hide');
       return this;
     }
 
@@ -62,11 +65,11 @@ function FooterBarView( logger, $el, options ){
     }
 
   , onNextClick: function( e ){
-      this.quiz.currQuestion++;
+      this.emit( 'next', e, this );
     }
 
   , onPrevClick: function( e ){
-      this.quiz.currQuestion--;
+      this.emit( 'prev', e, this );
     }
   }).init();
 };

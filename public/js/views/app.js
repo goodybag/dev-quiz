@@ -35,15 +35,13 @@ function AppView( logger, $el, options ){
         this.goToQuestion( this.quiz.currQuestion );
       }.bind( this ));
 
+      this.quiz.on( 'question:ready', this.onQuestionReady.bind( this ) );
+      this.quiz.on( 'question:not-ready', this.onQuestionNotReady.bind( this ) );
+
       return this;
     }
 
-  , render: function(){
-      this.$el.html([
-        '<div class="footer-bar hide"></div>'
-      , '<div class="container questions-container"></div>'
-      ].join('\n') );
-
+  , renderQuestions: function(){
       this.$questions = this.$el.find('.questions-container');
       this.questionViews = [];
 
@@ -71,9 +69,31 @@ function AppView( logger, $el, options ){
 
       this.$questions.append( frag );
 
+      return this;
+    }
+
+  , renderFooter: function(){
       this.footer = views.footer( logger, this.$el.find('.footer-bar'), {
         quiz: this.quiz
       }).render();
+
+      this.footer.on( 'next', function(){
+        this.quiz.currQuestion++;
+      }.bind( this ));
+
+      this.footer.on( 'prev', function(){
+        this.quiz.currQuestion--;
+      }.bind( this ));
+    }
+
+  , render: function(){
+      this.$el.html([
+        '<div class="footer-bar hide"></div>'
+      , '<div class="container questions-container"></div>'
+      ].join('\n') );
+
+      this.renderQuestions();
+      this.renderFooter();
 
       return this;
     }
@@ -87,14 +107,19 @@ function AppView( logger, $el, options ){
   , goToQuestion: function( i ){
       this.footer.show();
 
+      if ( this.quiz.onFirstQuestion() ){
+        this.footer.hideBtn('prev');
+      }
+
+      this.footer.hideBtn('next');
+      this.footer.hideBtn('finish');
+
       if ( this.currQ < i ){
         for ( var ii = 0; ii < i; ii++ ){
           this.questionViews[ ii ].next();
         }
       } else {
-        console.log('going to', i);
         for ( var ii = this.currQ; ii > i; ii-- ){
-          console.log('prev');
           this.questionViews[ ii ].prev();
         }
       }
@@ -102,6 +127,14 @@ function AppView( logger, $el, options ){
       this.currQ = i;
 
       return this;
+    }
+
+  , onQuestionReady: function( selection, question ){
+      this.footer.showBtn('next');
+    }
+
+  , onQuestionNotReady: function( question ){
+      this.footer.hideBtn('next');
     }
   }).init();
 };
