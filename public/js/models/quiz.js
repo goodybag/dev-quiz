@@ -1,22 +1,17 @@
+var utils = require('../lib/utils');
+
 module.exports.create = function( data ){
   if ( !Array.isArray( data.questions ) ){
     throw new Error('Missing `questions` property');
   }
 
-  return Object.create(
+  var quiz = Object.create(
     require('events').EventEmitter
   , {
       _step:          'intro'
     , possibleSteps:  ['intro', 'questions']
     , _currQuestion:  1
-
-    , set questions ( questions ){
-        if ( !Array.isArray( questions ) ){
-          throw new Error('Must set questions to an array');
-        }
-
-        this.initQuestions();
-      }
+    , questions:      []
 
     , get step (){
         return this._step;
@@ -64,9 +59,15 @@ module.exports.create = function( data ){
 
     , init: function(){
         this.initQuestions();
+        return this;
       }
 
     , initQuestions: function(){
+        this.questions.forEach( function( question ){
+          console.log(question);
+          question.removeAllListeners('selection:change');
+        });
+
         this.questions.forEach( function( question ){
           question.on('selection:change', function( selection ){
             if ( this.question === question ){
@@ -92,6 +93,9 @@ module.exports.create = function( data ){
         return this.currQuestion
       }
     }
-  , data
-  ).init();
+  );
+
+  utils.extend( quiz, data );
+
+  return quiz.init();
 };

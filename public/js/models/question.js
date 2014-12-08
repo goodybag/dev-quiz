@@ -9,17 +9,12 @@ module.exports = {
 };
 
 module.exports.create = function( data ){
-  var question = {};
+  var question = Object.create(
+    require('events').EventEmitter
+  , module.exports
+  );
 
   utils.extend( question, data );
 
-  Object.keys( module.exports )
-    .filter( function( k ){
-      ['create'].indexOf( k ) === -1;
-    })
-    .forEach( function( k ){
-      question[ k ] = module.exports[ k ];
-    });
-
-  return Object.create( question );
+  return question;
 };

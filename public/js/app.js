@@ -8,6 +8,8 @@ var quiz = require('./models/quiz').create({
               )
 });
 
+app.quiz = quiz;
+
 utils.domready( function(){
   app.view = require('./views/app')( logger, document.body, {
     quiz: quiz
