@@ -14,10 +14,14 @@ gulp.task( 'connect', function(){
 
 gulp.task( 'scripts', function(){
   return gulp.src('./public/js/app.js')
-    .pipe( transform( function( filename ){
-      return require('browserify')( filename ).bundle();
-    }))
-    .pipe( gulp.dest('./public/dist') );
+  .pipe( transform( function( filename ){
+    return require('browserify')({
+      debug: true
+    })
+    .add( filename )
+    .bundle();
+  }))
+  .pipe( gulp.dest('public/dist') );
 });
 
 gulp.task( 'less', function(){
