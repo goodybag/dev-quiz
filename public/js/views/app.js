@@ -109,9 +109,16 @@ function AppView( logger, $el, options ){
 
       if ( this.quiz.onFirstQuestion() ){
         this.footer.hideBtn('prev');
+      } else {
+        setTimeout( this.footer.showBtn.bind( this.footer, 'prev'), 1 );
       }
 
-      this.footer.hideBtn('next');
+      if ( this.quiz.question.isReady() ){
+        this.footer.showBtn('next');
+      } else {
+        this.footer.hideBtn('next');
+      }
+
       this.footer.hideBtn('finish');
 
       if ( this.currQ < i ){

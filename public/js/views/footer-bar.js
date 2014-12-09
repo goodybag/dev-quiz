@@ -45,12 +45,17 @@ function FooterBarView( logger, $el, options ){
     }
 
   , showBtn: function( btn ){
-      this.$el.find( '.question-nav > .' + btn ).removeClass('hide');
+      setTimeout( function(){
+        this.$el.find( '.question-nav > .' + btn ).removeClass('hide');
+      }.bind( this ), 1 );
+
       return this;
     }
 
   , hideBtn: function( btn ){
-      this.$el.find( '.question-nav > .' + btn ).addClass('hide');
+      setTimeout( function(){
+        this.$el.find( '.question-nav > .' + btn ).addClass('hide');
+      }.bind( this ), 1 );
       return this;
     }
 

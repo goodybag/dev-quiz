@@ -10,7 +10,7 @@ module.exports.create = function( data ){
   , {
       _step:          'intro'
     , possibleSteps:  ['intro', 'questions']
-    , _currQuestion:  1
+    , _currQuestion:  0
     , questions:      []
 
     , get step (){
@@ -64,7 +64,6 @@ module.exports.create = function( data ){
 
     , initQuestions: function(){
         this.questions.forEach( function( question ){
-          console.log(question);
           question.removeAllListeners('selection:change');
         });
 
