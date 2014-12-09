@@ -24,8 +24,19 @@ function View( logger, $el, options ){
         '<div class="question">'
       , '  <h1 class="question-text">' + this.model.text + '</h1>'
       , '  <div class="question-body">' + this.model.body + '</div>'
+      , '  <ul class="question-answers">'
+      , this.model.answers.map( function( answer, i ){
+          return '    ' + [
+            '<li>'
+          , '  <input type="radio" name="question-{id}-answer-{index}'
+              .replace( '{id}', this.model.cid )
+              .replace( '{index}', i )
+          , '<li>'
+          ].join('\n    ');
+        }.bind( this ))
+      , '  </ul>'
       , '</div>'
-      ].join('\n')
+      ].join('\n');
 
       this.$el.html([
       , '<div class="left-door">'
@@ -67,4 +78,4 @@ function View( logger, $el, options ){
       return this;
     }
   });
-};
+}

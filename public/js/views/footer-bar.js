@@ -77,4 +77,4 @@ function FooterBarView( logger, $el, options ){
       this.emit( 'prev', e, this );
     }
   }).init();
-};
+}

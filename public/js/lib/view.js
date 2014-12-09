@@ -20,4 +20,4 @@ module.exports = function( view ){
 
     return view( logger, $el, options );
   };
-}
+};

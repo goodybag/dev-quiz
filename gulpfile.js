@@ -3,8 +3,10 @@ var transform = require('vinyl-transform');
 var pkg       = require('./package.json');
 
 var config = {
-  jsFiles: ['*.js', 'test/*.js']
+  scripts: ['public/js/*.js', 'public/data/*.js', 'public/js/**/*.js']
 };
+
+config.lint = config.scripts.concat(['*.js', 'test/*.js']);
 
 gulp.task( 'connect', function(){
   require('gulp-connect').server({
@@ -31,14 +33,14 @@ gulp.task( 'less', function(){
 });
 
 gulp.task( 'lint', function(){
-  return gulp.src(['*.js', 'test/*.js'])
+  return gulp.src( config.lint )
     .pipe( require('gulp-jshint')( pkg.jshint || {} ) )
     .pipe( require('gulp-jshint').reporter('default') );
 });
 
 gulp.task( 'watch', function(){
-  gulp.watch( ['*.js', 'test/*.js'], ['lint'] );
-  gulp.watch( ['public/js/*.js', 'public/js/**/*.js'], ['scripts'] );
+  gulp.watch( config.lint, ['lint'] );
+  gulp.watch( config.scripts, ['scripts'] );
   gulp.watch( ['less/*.less', 'less/**/*.less'], ['less'] );
 });
 

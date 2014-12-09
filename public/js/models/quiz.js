@@ -48,7 +48,7 @@ module.exports.create = function( data ){
 
     , set currQuestion ( q ){
         if ( isNaN( parseInt( q ) ) ){
-          throw new Error
+          throw new Error('Invalid type for currQuestion index');
         }
 
         if ( this._currQuestion === q ) return;
@@ -89,7 +89,7 @@ module.exports.create = function( data ){
       }
 
     , readyToContinue: function(){
-        return this.currQuestion
+        
       }
     }
   );

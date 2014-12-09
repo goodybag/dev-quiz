@@ -110,7 +110,7 @@ function AppView( logger, $el, options ){
       if ( this.quiz.onFirstQuestion() ){
         this.footer.hideBtn('prev');
       } else {
-        setTimeout( this.footer.showBtn.bind( this.footer, 'prev'), 1 );
+        this.footer.showBtn.bind( this.footer, 'prev');
       }
 
       if ( this.quiz.question.isReady() ){
@@ -121,12 +121,13 @@ function AppView( logger, $el, options ){
 
       this.footer.hideBtn('finish');
 
+      var ii;
       if ( this.currQ < i ){
-        for ( var ii = 0; ii < i; ii++ ){
+        for ( ii = 0; ii < i; ii++ ){
           this.questionViews[ ii ].next();
         }
       } else {
-        for ( var ii = this.currQ; ii > i; ii-- ){
+        for ( ii = this.currQ; ii > i; ii-- ){
           this.questionViews[ ii ].prev();
         }
       }
@@ -144,4 +145,4 @@ function AppView( logger, $el, options ){
       this.footer.hideBtn('next');
     }
   }).init();
-};
+}
