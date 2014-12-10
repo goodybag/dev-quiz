@@ -21,6 +21,7 @@ function ConclusionView( logger, $el, options ){
     $el:          $el
   , options:      options
   , model:        options.model
+  , quiz:         options.quiz
   , isConclusion: true
 
   , domEvents: function(){
@@ -28,8 +29,10 @@ function ConclusionView( logger, $el, options ){
     }
 
   , render: function(){
+      if ( !this.score ) return this;
+
       var base = [
-      , '  <h1>This is the end!</h1>'
+      , '  <h1>You got a ' + this.score.percent + '%!</h1>'
       ].join('\n');
 
       this.$el.html([
@@ -44,6 +47,11 @@ function ConclusionView( logger, $el, options ){
       this.domEvents();
 
       return this;
+    }
+
+  , onShow: function(){
+      this.score = this.quiz.score();
+      this.render();
     }
   });
 }

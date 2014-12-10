@@ -6,42 +6,50 @@ var questions = module.exports = [];
 
 questions.push({
   type: 'multi'
-, text: 'What is the output?'
+, text: 'What is the output of the following statement:'
 , body: [
-    '<p>Question body here answers somewhere else</p>'
-  ].join('\n')
+    '<pre><code class="lang-javascript">'
+  , '[1, 2].concat(3).concat([4])'
+  , '</code></pre>'
+  ].join('')
 , answers: [
-    { label: '1', value: 1 }
-  , { label: '2', value: 2 }
-  , { label: '3', value: 3 }
-  , { label: '4', value: 4 }
+    { label: '[1, 2, 3, [4]]' }
+  , { label: '[[1, 2], 3, [4]]' }
+  , { label: '[1, 2, 3, 4]' }
   ]
+, correctAnswer: 2
 });
 
 questions.push({
   type: 'multi'
-, text: 'What is the output?'
+, text: 'What is the value of the following statement?'
 , body: [
-    '<p>Question body here answers somewhere else</p>'
-  ].join('\n')
+    '<pre><code class="lang-javascript">'
+  , '0.1 + 0.2 === 0.3'
+  , '</code></pre>'
+  ].join('')
 , answers: [
-    { label: '1', value: 1 }
-  , { label: '2', value: 2 }
-  , { label: '3', value: 3 }
-  , { label: '4', value: 4 }
+    { label: 'True' }
+  , { label: 'False' }
   ]
+, correctAnswer: 0
 });
 
 questions.push({
   type: 'multi'
-, text: 'What is the output?'
+, text: 'What is the value of the following?'
 , body: [
-    '<p>Question body here answers somewhere else</p>'
-  ].join('\n')
+    '<pre><code class="lang-javascript">'
+  , '[3,5,7,8,9].reduce(function(a, b) {\n'
+  , '  return a + b%2;\n'
+  , '}, 0);'
+  , '</code></pre>'
+  ].join('')
 , answers: [
-    { label: '1', value: 1 }
-  , { label: '2', value: 2 }
-  , { label: '3', value: 3 }
-  , { label: '4', value: 4 }
+    { label: '11' }
+  , { label: '10' }
+  , { label: '4' }
+  , { label: '6' }
   ]
+, correctAnswer: 2
 });

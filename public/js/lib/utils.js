@@ -8,6 +8,8 @@ utils.http      = require('jquery').ajax;
 window.$ = window.jQuery = utils.dom;
 require('iCheck');
 
+require('prismjs/prism');
+
 var oCreate = Object.create;
 Object.create = function(){
   var ctrs, objs = Array.prototype.slice.call( arguments );

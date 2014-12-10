@@ -106,6 +106,18 @@ module.exports.create = function( data ){
 
         return this;
       }
+
+    , score: function(){
+        var score = {
+          correctAnswers: this.questions.reduce( function( a, q ){
+                            return a + ( q.selection === q.correctAnswer ? 1 : 0 );
+                          }, 0 )
+        };
+
+        score.percent = Math.round( ( score.correctAnswers / this.questions.length ) * 100 );
+
+        return score;
+      }
     }
   );
 

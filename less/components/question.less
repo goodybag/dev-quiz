@@ -3,5 +3,41 @@
 //////////////
 
 .question {
-  text-align: center;
+  .question-text {
+    @media screen and ( max-width: @breakpoint-mobile ){
+      font-size: 1.4em;
+    }
+  }
+
+  .question-body {
+    display: flex;
+
+    @media screen and ( max-width: @breakpoint-mobile ){
+      display: block;
+    }
+
+    .body-wrapper, .answers-wrapper {
+      flex: 1;
+    }
+
+    .answers-wrapper {
+      margin-left: 50px;
+    }
+  }
+
+  .question-answers {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    @media screen and ( max-width: @breakpoint-mobile ){
+      margin-top: 32px;
+    }
+
+    li {
+      font-size: 17px;
+      font-family: monospace;
+      margin-bottom: 12px;
+    }
+  }
 }
