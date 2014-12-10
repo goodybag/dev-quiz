@@ -32,7 +32,7 @@ questions.push({
     { label: 'True' }
   , { label: 'False' }
   ]
-, correctAnswer: 0
+, correctAnswer: 1
 });
 
 questions.push({
