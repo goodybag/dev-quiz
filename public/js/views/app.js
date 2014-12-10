@@ -33,10 +33,10 @@ function AppView( logger, $el, options ){
     }
 
   , reset: function(){
-    console.log('reset');
       this.goToBeginning();
       this.$container.find('> .hide').removeClass('hide');
       this.$el.find(':checked').attr( 'checked', false );
+      this.applyFooterState();
       return this;
     }
 
@@ -76,7 +76,6 @@ function AppView( logger, $el, options ){
         , isLastQuestion: i === this.questions.length - 1
         }).render();
 
-        q.on( 'selection:change', console.log.bind( console, 'change') );
         q.on( 'selection:change', this.applyFooterState.bind( this ) );
 
         prev.setNext( view );
