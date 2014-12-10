@@ -1,4 +1,5 @@
-var actions = require('../lib/actions');
+var utils = require('../lib/utils');
+var fillers = require('../../data/fillers');
 
 module.exports = require('../lib/view')( AppView );
 
@@ -11,6 +12,10 @@ var views = {
 };
 
 function AppView( logger, $el, options ){
+  options = utils.defaults( options || {}, {
+    fillerFrequency: 1
+  });
+
   logger = logger.create('AppView');
 
   if ( !options.quiz ){
@@ -80,6 +85,17 @@ function AppView( logger, $el, options ){
           prev = view;
 
           frag.appendChild( view.$el[0] );
+
+          if ( i % options.fillerFrequency !== 0 ) return;
+
+          console.log(~~( Math.random() * fillers.length ), fillers[ ~~( Math.random() * fillers.length ) ]);
+          view = views.filler( logger, null, {
+            model: fillers[ ~~( Math.random() * fillers.length ) ]
+          }).render();
+
+          prev.setNext( view );
+          prev = view;
+          frag.appendChild( view.$el[0] );
         }.bind( this ) );
 
         return this;
@@ -145,8 +161,8 @@ function AppView( logger, $el, options ){
         }
 
         var state = {
-          prev:     !this.curr.isFirstQuestion && !this.curr.isConclusion
-        , next:     this.curr.nextView && this.curr.isQuestion && !this.curr.isLastQuestion && this.curr.model.isReady()
+          prev:     this.curr.isFiller || !this.curr.isFirstQuestion && !this.curr.isConclusion
+        , next:     this.curr.isFiller || this.curr.nextView && this.curr.isQuestion && !this.curr.isLastQuestion && this.curr.model.isReady()
         , finish:   this.curr.isLastQuestion && this.curr.model.isReady()
         , restart:  this.curr.isConclusion
         };

@@ -13,5 +13,6 @@ app.quiz = quiz;
 utils.domready( function(){
   app.view = require('./views/app')( logger, document.body, {
     quiz: quiz
+  , fillerFrequency: 1
   }).render();
 });

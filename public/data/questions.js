@@ -59,8 +59,8 @@ questions.push({
     , '  </div>'
     , '</div>'
     ].join('\n')
-      .replace(/\</g, '&lt;')
-      .replace(/\>/g, '&gt;')
+      .replace( new RegExp('<', 'g'), '&lt;' )
+      .replace( new RegExp('>', 'g'), '&gt;' )
   , '</code></pre>'
   ].join('')
 , answers: [
