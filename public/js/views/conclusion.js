@@ -1,7 +1,7 @@
 var utils = require('../lib/utils');
 
 ConclusionView.tagName = 'section';
-ConclusionView.classList = 'conclusion';
+ConclusionView.classList = ['conclusion', 'section-white'];
 
 module.exports = require('../lib/view')( ConclusionView );
 
