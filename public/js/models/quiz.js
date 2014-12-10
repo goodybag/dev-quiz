@@ -9,7 +9,7 @@ module.exports.create = function( data ){
     require('events').EventEmitter
   , {
       _step:          'intro'
-    , possibleSteps:  ['intro', 'questions']
+    , possibleSteps:  ['intro', 'questions', 'conclusion']
     , _currQuestion:  0
     , questions:      []
 
@@ -68,6 +68,11 @@ module.exports.create = function( data ){
         });
 
         this.questions.forEach( function( question ){
+          if ( question.type === 'filler' ){
+            question.selection = true;
+            return;
+          }
+
           question.on('selection:change', function( selection ){
             if ( this.question === question ){
               if ( selection !== null ){
@@ -90,6 +95,16 @@ module.exports.create = function( data ){
 
     , readyToContinue: function(){
         
+      }
+
+    , reset: function(){
+        this.questions.forEach( function( question ){
+          question.selection = null;
+        });
+
+        this.emit('reset');
+
+        return this;
       }
     }
   );

@@ -2,15 +2,15 @@
  * Intro View
  */
 
-View.tagName = 'section';
-View.classList = [
+IntroView.tagName = 'section';
+IntroView.classList = [
   'intro'
 , 'section-white'
 ];
 
-module.exports = require('../lib/view')( View );
+module.exports = require('../lib/view')( IntroView );
 
-function View( logger, $el, options ){
+function IntroView( logger, $el, options ){
   logger = logger.create('QuestionView', {
     options:  options
   , $el:      $el
@@ -19,16 +19,19 @@ function View( logger, $el, options ){
   logger.info('Initializing');
 
   return Object.create(
-    require('events').EventEmitter
+    {}
+  , require('events').EventEmitter
+  , require('./mixins/linked-view-node')
   , {
-      $el:      $el
-    , options:  options
-    , model:    options.model
+      $el:          $el
+    , options:      options
+    , model:        options.model
 
     , events: function(){
         this.$el.find('.logo').click( function( e ){
-          this.hide();
-          this.options.quiz.step = 'questions';
+          if ( typeof options.onLogoClick === 'function' ){
+            options.onLogoClick( e, this );
+          }
         }.bind( this ));
       }
 
@@ -50,16 +53,6 @@ function View( logger, $el, options ){
 
         this.events();
 
-        return this;
-      }
-
-    , hide: function(){
-        this.$el.addClass('open');
-        return this;
-      }
-
-    , show: function(){
-        this.$el.removeClass('open');
         return this;
       }
     }

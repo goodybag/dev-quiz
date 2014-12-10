@@ -3,7 +3,7 @@ var transform = require('vinyl-transform');
 var pkg       = require('./package.json');
 
 var config = {
-  scripts: ['public/js/*.js', 'public/data/*.js', 'public/js/**/*.js']
+  scripts: ['public/js/*.js', 'public/data/*.js', 'public/js/**/*.js', 'public/js/**/**/*.js']
 };
 
 config.lint = config.scripts.concat(['*.js', 'test/*.js']);

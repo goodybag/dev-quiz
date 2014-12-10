@@ -1,9 +1,13 @@
+var actions = require('../lib/actions');
+
 module.exports = require('../lib/view')( AppView );
 
 var views = {
-  intro:    require('./intro')
-, question: require('./question')
-, footer:   require('./footer-bar')
+  intro:        require('./intro')
+, question:     require('./question')
+, filler:       require('./filler')
+, conclusion:   require('./conclusion')
+, footer:       require('./footer-bar')
 };
 
 function AppView( logger, $el, options ){
@@ -14,135 +18,147 @@ function AppView( logger, $el, options ){
     throw new Error('AppView view must be instantiated with options.quiz');
   }
 
-  return Object.create({
+  return Object.create(
+    {}
+  , require('./mixins/linked-view-list')
+  , {
     $el: $el
 
-  , currQ: options.quiz.currQuestion
   , quiz: options.quiz
   , questions: options.quiz.questions
-  , questionViews: []
 
   , init: function(){
-      this.quiz.on( 'step:change', function( step, old ){
-        if ( step === 'intro' ){
-          this.goToIntro();
-        } else if ( step === 'questions' ){
-          this.goToQuestion( this.quiz.currQuestion );
-        }
-      }.bind( this ));
-
-      this.quiz.on( 'question:change', function( question, old ){
-        this.goToQuestion( this.quiz.currQuestion );
-      }.bind( this ));
-
-      this.quiz.on( 'question:ready', this.onQuestionReady.bind( this ) );
-      this.quiz.on( 'question:not-ready', this.onQuestionNotReady.bind( this ) );
-
+      this.quiz.on( 'reset', this.reset.bind( this ) );
       return this;
     }
 
-  , renderQuestions: function(){
-      this.$questions = this.$el.find('.questions-container');
-      this.questionViews = [];
+  , reset: function(){
+    console.log('reset');
+      this.goToBeginning();
+      this.$container.find('> .hide').removeClass('hide');
+      this.$el.find(':checked').attr( 'checked', false );
+      return this;
+    }
 
-      var frag = document.createDocumentFragment();
+  , next: function(){
+      require('./mixins/linked-view-list').next.call( this );
+      this.applyFooterState();
+      return this;
+    }
 
-      this.introView = views.intro( logger, null, {
-        quiz: this.quiz
-      });
+  , prev: function(){
+      require('./mixins/linked-view-list').prev.call( this );
+      this.applyFooterState();
+      return this;
+    }
 
+  , renderIntro: function( frag ){
+      this.curr = this.introView = views.intro( logger, null, {
+        onLogoClick: function( e ){
+          this.next();
+        }.bind( this )
+      }).render();
+
+      frag.appendChild( this.curr.$el[0] );
+    }
+
+  , renderQuestions: function( frag ){
       frag.appendChild( this.introView.render().$el[0] );
+
+      var prev = this.curr;
 
       this.questions.forEach( function( q, i ){
         var view = views.question( logger, null, {
           model: q
-        });
+        , onAnswerChange: function( e ){
+          }.bind( this )
+        , isFirstQuestion: i === 0
+        , isLastQuestion: i === this.questions.length - 1
+        }).render();
 
-        this.questionViews.push( view );
+        q.on( 'selection:change', console.log.bind( console, 'change') );
+        q.on( 'selection:change', this.applyFooterState.bind( this ) );
+
+        prev.setNext( view );
+        prev = view;
+
         frag.appendChild( view.$el[0] );
       }.bind( this ) );
-
-      this.questionViews.forEach( function( v, i, qviews ){
-        v.setAdjacent( qviews[ i - 1 ], qviews[ i + 1 ] );
-        v.render();
-      }.bind( this ));
-
-      this.$questions.append( frag );
 
       return this;
     }
 
-  , renderFooter: function(){
+  , renderConclusion: function( frag ){
+      this.conclusion = views.conclusion( logger, null, {
+        quiz: this.quiz
+      }).render();
+
+      this.append( this.conclusion );
+
+      frag.appendChild( this.conclusion.$el[0] );
+    }
+
+  , renderFooter: function( frag ){
       this.footer = views.footer( logger, this.$el.find('.footer-bar'), {
         quiz: this.quiz
       }).render();
 
       this.footer.on( 'next', function(){
-        this.quiz.currQuestion++;
+        this.next();
       }.bind( this ));
 
       this.footer.on( 'prev', function(){
-        this.quiz.currQuestion--;
+        this.prev();
+      }.bind( this ));
+
+      this.footer.on( 'finish', function(){
+        this.next();
+      }.bind( this ));
+
+      this.footer.on( 'restart', function(){
+        this.quiz.reset();
       }.bind( this ));
     }
 
   , render: function(){
       this.$el.html([
         '<div class="footer-bar hide"></div>'
-      , '<div class="container questions-container"></div>'
+      , '<div class="container"></div>'
       ].join('\n') );
 
-      this.renderQuestions();
-      this.renderFooter();
+      this.$container = this.$el.find('.container');
+
+      var frag = document.createDocumentFragment();
+
+      this.renderIntro( frag );
+      this.renderQuestions( frag );
+      this.renderFooter( frag );
+      this.renderConclusion( frag );
+
+      this.$container.append( frag );
 
       return this;
     }
 
-  , goToIntro: function(){
-      this.$questions.find('.open').removeClass('.open');
-      this.footer.hide();
-      return this;
-    }
-
-  , goToQuestion: function( i ){
-      this.footer.show();
-
-      if ( this.quiz.onFirstQuestion() ){
-        this.footer.hideBtn('prev');
+  , applyFooterState: function(){
+      if ( !this.curr.prevView ){
+        this.footer.hide();
       } else {
-        this.footer.showBtn.bind( this.footer, 'prev');
+        this.footer.show();
       }
 
-      if ( this.quiz.question.isReady() ){
-        this.footer.showBtn('next');
-      } else {
-        this.footer.hideBtn('next');
+      var state = {
+        prev:     !this.curr.isFirstQuestion && !this.curr.isConclusion
+      , next:     this.curr.nextView && this.curr.isQuestion && !this.curr.isLastQuestion && this.curr.model.isReady()
+      , finish:   this.curr.isLastQuestion && this.curr.model.isReady()
+      , restart:  this.curr.isConclusion
+      };
+
+      for ( var key in state ){
+        this.footer[ (state[ key ] ? 'show' : 'hide') + 'Btn' ]( key );
       }
-
-      this.footer.hideBtn('finish');
-
-      var ii;
-      if ( this.currQ < i ){
-        for ( ii = 0; ii < i; ii++ ){
-          this.questionViews[ ii ].next();
-        }
-      } else {
-        for ( ii = this.currQ; ii > i; ii-- ){
-          this.questionViews[ ii ].prev();
-        }
-      }
-
-      this.currQ = i;
 
       return this;
-    }
-
-  , onQuestionReady: function( selection, question ){
-      this.footer.showBtn('next');
-    }
-
-  , onQuestionNotReady: function( question ){
-      this.footer.hideBtn('next');
     }
   }).init();
 }

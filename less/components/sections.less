@@ -2,6 +2,8 @@ body > section {
 
 }
 
+@transition-duration: 0.5s;
+
 section {
   display: flex;
   position: absolute;
@@ -9,17 +11,26 @@ section {
   left: 0;
   width: 100%;
   height: 100%;
-  transition: opacity 1s ease-out, transform 0.8s ease-in, z-index 1s linear;
+  transition:
+    opacity @transition-duration ease-out
+  , transform @transition-duration - 0.1 ease-in
+  , z-index @transition-duration linear;
   opacity: 1;
   z-index: 2;
   transform: scale(1);
+
+  .section-inner {
+    width: 100%;
+  }
 
   .left-door,
   .right-door {
     position: relative;
     width: 50%;
     height: 100%;
-    transition: transform 0.8s ease-in, box-shadow 0.5s linear;
+    transition:
+      transform @transition-duration - 0.1 ease-in
+    , box-shadow @transition-duration - 0.2 linear;
     overflow: hidden;
   }
 
@@ -35,7 +46,7 @@ section {
     left: -100%;
   }
 
-  &.open {
+  &.hide {
     transform: scale(2);
     opacity: 0;
     pointer-events: none;
@@ -54,18 +65,18 @@ section {
   }
 }
 
-section:not(.open) + section {
+section:not(.hide) + section {
   z-index: 1;
   transform: scale(0.8);
   opacity: 0;
 }
 
 .section-white {
-  .left-door, .right-door { background: none; }
+  .section-inner, .left-door, .right-door { background: none; }
   color: @black;
 }
 
 .section-red {
-  .left-door, .right-door { background: @red; }
+  .section-inner, .left-door, .right-door { background: @red; }
   color: @white;
 }

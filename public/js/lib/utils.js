@@ -4,6 +4,10 @@ utils.dom       = require('jquery');
 utils.domready  = require('jquery');
 utils.http      = require('jquery').ajax;
 
+// jquery plugins
+window.$ = window.jQuery = utils.dom;
+require('iCheck');
+
 var oCreate = Object.create;
 Object.create = function(){
   var ctrs, objs = Array.prototype.slice.call( arguments );

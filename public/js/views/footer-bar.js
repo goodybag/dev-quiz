@@ -24,8 +24,10 @@ function FooterBarView( logger, $el, options ){
     }
 
   , domEvents: function(){
-      this.$el.find('.next').click( this.onNextClick.bind( this ) );
-      this.$el.find('.prev').click( this.onPrevClick.bind( this ) );
+      this.$el.find('.next').click( this.emit.bind( this, 'next' ) );
+      this.$el.find('.prev').click( this.emit.bind( this, 'prev' ) );
+      this.$el.find('.finish').click( this.emit.bind( this, 'finish' ) );
+      this.$el.find('.restart').click( this.emit.bind( this, 'restart' ) );
     }
 
   , render: function(){
@@ -35,6 +37,7 @@ function FooterBarView( logger, $el, options ){
       html.push('  <button class="hide prev">←</button>');
       html.push('  <button class="hide next">→</button>');
       html.push('  <button class="hide finish">✔</button>');
+      html.push('  <button class="hide restart">⟳</button>');
       html.push('</nav>');
 
       this.$el.html( html.join('\n') );
@@ -47,7 +50,7 @@ function FooterBarView( logger, $el, options ){
   , showBtn: function( btn ){
       setTimeout( function(){
         this.$el.find( '.question-nav > .' + btn ).removeClass('hide');
-      }.bind( this ), 1 );
+      }.bind( this ), 10 );
 
       return this;
     }
@@ -55,7 +58,7 @@ function FooterBarView( logger, $el, options ){
   , hideBtn: function( btn ){
       setTimeout( function(){
         this.$el.find( '.question-nav > .' + btn ).addClass('hide');
-      }.bind( this ), 1 );
+      }.bind( this ), 10 );
       return this;
     }
 
@@ -74,7 +77,11 @@ function FooterBarView( logger, $el, options ){
     }
 
   , onPrevClick: function( e ){
-      this.emit( 'prev', e, this );
+      
+    }
+
+  , onFinishClick: function( e ){
+      this.emit( 'finish', e, this );
     }
   }).init();
 }
