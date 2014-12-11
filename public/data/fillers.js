@@ -40,7 +40,7 @@ module.exports.push({
 });
 
 module.exports.push({
-  title: '¯\_(ツ)_/¯'
+  title: '¯\\_(ツ)_/¯'
 , body:  [
     '<div class="cupcake"></div>'
   ].join('\n')
