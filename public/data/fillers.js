@@ -31,3 +31,17 @@ module.exports.push({
     '<div class="cupcake"></div>'
   ].join('\n')
 });
+
+module.exports.push({
+  title: '(╯°□°)╯︵ ┻━┻'
+, body:  [
+    '<div class="cupcake"></div>'
+  ].join('\n')
+});
+
+module.exports.push({
+  title: '¯\_(ツ)_/¯'
+, body:  [
+    '<div class="cupcake"></div>'
+  ].join('\n')
+});
