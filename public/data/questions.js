@@ -22,6 +22,20 @@ questions.push({
 
 questions.push({
   type: 'multi'
+  , text: 'Answer the following CSS question'
+  , body: [
+      'Which value of <code class="lang-css">position:</code> does not take up space in the document flow?'
+    ].join('')
+  , answers: [
+    { label: 'relative' }
+  , { label: 'static' }
+  , { label: 'absolute' }
+  ]
+  , correctAnswer: 2
+});
+
+questions.push({
+  type: 'multi'
 , text: 'What is the value of the following statement?'
 , body: [
     '<pre><code class="lang-javascript">'
