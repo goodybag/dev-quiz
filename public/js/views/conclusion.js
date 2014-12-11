@@ -1,7 +1,7 @@
 var utils = require('../lib/utils');
 
 ConclusionView.tagName = 'section';
-ConclusionView.classList = ['conclusion', 'section-white'];
+ConclusionView.classList = ['section-conclusion', 'section-white'];
 
 module.exports = require('../lib/view')( ConclusionView );
 
@@ -32,7 +32,8 @@ function ConclusionView( logger, $el, options ){
       if ( !this.score ) return this;
 
       var base = [
-      , '  <h1>You got a ' + this.score.percent + '%!</h1>'
+        '<h1>You got a ' + this.score.percent + '%!</h1>'
+      , '<div class="cupcake"></div>'
       ].join('\n');
 
       this.$el.html([

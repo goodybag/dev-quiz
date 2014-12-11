@@ -86,6 +86,7 @@ function AppView( logger, $el, options ){
 
           frag.appendChild( view.$el[0] );
 
+          if ( i === this.questions.length - 1 ) return;
           if ( i % options.fillerFrequency !== 0 ) return;
 
           console.log(~~( Math.random() * fillers.length ), fillers[ ~~( Math.random() * fillers.length ) ]);

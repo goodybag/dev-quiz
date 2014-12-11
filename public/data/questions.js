@@ -90,3 +90,44 @@ questions.push({
   ]
 , correctAnswer: 2
 });
+
+questions.push({
+  type: 'multi'
+  , text: 'What is the output of the following JS snippet?'
+  , body: [
+  '<pre><code class="lang-javascript">'
+  , 'for( var i=0; i<=3; i++ ) {\n'
+  , '  var foo = i;\n'
+  , '}\n'
+  , '\n'
+  , 'console.log(foo);'
+  , '</code></pre>'
+  ].join('')
+  , answers: [
+  { label: 'undefined' }
+  , { label: '0' }
+  , { label: '1' }
+  , { label: '2' }
+  , { label: '3' }
+  , { label: '4' }
+  ]
+  , correctAnswer: 4
+});
+ 
+questions.push({
+  type: 'multi'
+  , text: 'What is the value of the following?'
+  , body: [
+  '<pre><code class="lang-javascript">'
+  , '17^4'
+  , '</code></pre>'
+  ].join('')
+  , answers: [
+  { label: '21' }
+  , { label: '22' }
+  , { label: '23' }
+  , { label: '24' }
+  , { label: '25' }
+  ]
+  , correctAnswer: 0
+});
