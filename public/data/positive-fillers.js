@@ -1,8 +1,17 @@
 /**
- * Fillers
+ * Positive Fillers
  */
 
 module.exports = [];
+
+Object.defineProperty( module.exports, 'getRandom', {
+  enumerable: false
+, get: function(){
+    return function(){
+      return this[ ~~( Math.random() * this.length ) ];
+    }.bind( this );
+  }
+});
 
 module.exports.push({
   title: 'Keep it up!'
@@ -27,20 +36,6 @@ module.exports.push({
 
 module.exports.push({
   title: ':D :D :D :D :D'
-, body:  [
-    '<div class="cupcake"></div>'
-  ].join('\n')
-});
-
-module.exports.push({
-  title: '(╯°□°)╯︵ ┻━┻'
-, body:  [
-    '<div class="cupcake"></div>'
-  ].join('\n')
-});
-
-module.exports.push({
-  title: '¯\\_(ツ)_/¯'
 , body:  [
     '<div class="cupcake"></div>'
   ].join('\n')

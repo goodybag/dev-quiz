@@ -1,5 +1,4 @@
 var utils = require('../lib/utils');
-var fillers = require('../../data/fillers');
 
 module.exports = require('../lib/view')( AppView );
 
@@ -86,13 +85,12 @@ function AppView( logger, $el, options ){
 
           frag.appendChild( view.$el[0] );
 
-          if ( i === this.questions.length - 1 ) return;
-          if ( i % options.fillerFrequency !== 0 ) return;
-
-          console.log(~~( Math.random() * fillers.length ), fillers[ ~~( Math.random() * fillers.length ) ]);
           view = views.filler( logger, null, {
-            model: fillers[ ~~( Math.random() * fillers.length ) ]
-          }).render();
+            question: q
+          , isLastFiller: i === this.questions.length - 1
+          });
+
+          view.on( 'next', this.next.bind( this ) );
 
           prev.setNext( view );
           prev = view;
@@ -163,8 +161,8 @@ function AppView( logger, $el, options ){
 
         var state = {
           prev:     this.curr.isFiller || !this.curr.isFirstQuestion && !this.curr.isConclusion
-        , next:     this.curr.isFiller || this.curr.nextView && this.curr.isQuestion && !this.curr.isLastQuestion && this.curr.model.isReady()
-        , finish:   this.curr.isLastQuestion && this.curr.model.isReady()
+        , next:     this.curr.isFiller || this.curr.nextView && this.curr.isQuestion && this.curr.model.isReady()
+        , finish:   this.curr.isLastFiller
         , restart:  this.curr.isConclusion
         };
 

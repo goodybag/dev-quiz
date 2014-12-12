@@ -15,6 +15,14 @@ module.exports = {
     return this;
   }
 
+, madeSelection: function(){
+    return this.selection !== null && this.selection !== undefined;
+  }
+
+, isSelectionCorrect: function( s ){
+    return ( s || this.selection ) === this.correctAnswer;
+  }
+
 , isReady: function(){
     return this.selection !== null && this.selection !== undefined;
   }

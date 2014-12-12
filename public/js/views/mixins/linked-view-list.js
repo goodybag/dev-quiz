@@ -28,8 +28,11 @@ module.exports = {
 , prev: function(){
     if ( !this.curr.prevView ) return this;
 
+    this.curr.onHide();
     this.curr = this.curr.prevView;
     this.curr.show();
+    this.curr.onShow();
+
     return this;
   }
 
