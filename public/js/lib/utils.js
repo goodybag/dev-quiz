@@ -6,7 +6,6 @@ utils.http      = require('jquery').ajax;
 
 // jquery plugins
 window.$ = window.jQuery = utils.dom;
-require('iCheck');
 
 require('prismjs/prism');
 
