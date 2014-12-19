@@ -15,6 +15,7 @@ function ConclusionView( logger, $el, options ){
 
   return Object.create(
     {}
+  , require('events').EventEmitter
   , require('./mixins/linked-view-node')
   , {
 

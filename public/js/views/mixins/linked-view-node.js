@@ -1,11 +1,13 @@
 module.exports = {
   show: function(){
     this.$el.removeClass('hide');
+    this.emit('show');
     return this;
   }
 
 , hide: function(){
     this.$el.addClass('hide');
+    this.emit('hide');
     return this;
   }
 

@@ -12,7 +12,7 @@ module.exports = function( view ){
     options = options || {};
 
     logger.info( 'Instantiating view', { view: view } );
-    $el = utils.dom( $el || '<' + (view.tagName || 'view') + ' />' );
+    $el = utils.dom( $el || '<' + (view.tagName || 'div') + ' />' );
 
     if ( Array.isArray( view.classList ) ){
       view.classList.forEach( $el.addClass.bind( $el ) );

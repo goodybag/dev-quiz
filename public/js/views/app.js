@@ -83,6 +83,10 @@ function AppView( logger, $el, options ){
           prev.setNext( view );
           prev = view;
 
+          view.on( 'show', function(){
+            this.quiz.currQuestion = i;
+          }.bind( this ));
+
           frag.appendChild( view.$el[0] );
 
           view = views.filler( logger, null, {

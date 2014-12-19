@@ -38,6 +38,26 @@ gulp.task( 'lint', function(){
     .pipe( require('gulp-jshint').reporter('default') );
 });
 
+// gulp-eslint causing too much heartache right now
+// gulp.task( 'lint', function(){
+//   var eslint = require('gulp-eslint');
+
+//   return gulp.src( config.lint )
+//     .pipe( eslint({
+//       rules: {
+//         'no-multi-spaces':  0
+//       , 'quotes':           'single'
+//       }
+//     , globals: {
+//         'jQuery': true
+//       , '$': true
+//       }
+//     , envs: ['browser', 'node']
+//     }))
+//     .pipe( eslint.format('checkstyle') )
+//     .pipe( eslint.failOnError() );
+// });
+
 gulp.task( 'watch', function(){
   gulp.watch( config.lint, ['lint'] );
   gulp.watch( config.scripts, ['scripts'] );

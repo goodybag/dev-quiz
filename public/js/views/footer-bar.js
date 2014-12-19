@@ -4,6 +4,10 @@
 
 module.exports = require('../lib/view')( FooterBarView );
 
+var Views = {
+  ProgressIndicator: require('./footer-progress-indicator')
+};
+
 function FooterBarView( logger, $el, options ){
   logger = logger.create('FooterBar');
 
@@ -20,6 +24,12 @@ function FooterBarView( logger, $el, options ){
         this.render();
       }.bind( this ));
 
+      this.views = {
+        progress: Views.ProgressIndicator( logger, null, {
+          quiz: this.quiz
+        })
+      };
+
       return this;
     }
 
@@ -33,6 +43,8 @@ function FooterBarView( logger, $el, options ){
   , render: function(){
       var html = [];
 
+      html.push('<div class="progress-indicator"></div>');
+
       html.push('<nav class="question-nav">');
       html.push('  <button class="hide prev">←</button>');
       html.push('  <button class="hide next">→</button>');
@@ -41,6 +53,9 @@ function FooterBarView( logger, $el, options ){
       html.push('</nav>');
 
       this.$el.html( html.join('\n') );
+
+      this.views.progress.render();
+      this.$el.find('.progress-indicator').append( this.views.progress.$el );
 
       this.domEvents();
 

@@ -54,6 +54,7 @@ module.exports.create = function( data ){
         if ( this._currQuestion === q ) return;
         var old = this._currQuestion;
         this._currQuestion = q;
+        console.log('emitting question change');
         this.emit( 'question:change', q, old );
       }
 

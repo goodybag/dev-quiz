@@ -17,6 +17,7 @@ function View( logger, $el, options ){
 
   return Object.create(
     {}
+  , require('events').EventEmitter
   , require('./mixins/linked-view-node')
   , {
       $el:              $el
@@ -26,6 +27,11 @@ function View( logger, $el, options ){
     , isQuestion:       true
     , isFirstQuestion:  options.isFirstQuestion
     , isLastQuestion:   options.isLastQuestion
+
+    , onShow: function(){
+        // SUUUUUPER HACKY
+        // this.options.quiz.currQuestion = this.options.index;
+      }
 
     , domEvents: function(){
         logger.info('Initing events');

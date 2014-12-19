@@ -2,6 +2,8 @@
 // Footer Bar //
 ////////////////
 
+@import "./footer-progress-indicator.less";
+
 .footer-bar {
   position: fixed;
   bottom: 0;
@@ -17,6 +19,17 @@
   &.hide {
     display: block!important;
     transform: translateY( @footer-bar-height + 1 );
+  }
+
+  .progress-indicator {
+    float: left;
+    height: 100%;
+    text-shadow: 0 -1px 0 rgba( 0, 0, 0, 0.5 );
+    padding-left: 12px;
+    > .footer-progress-indicator {
+      height: 100%;
+      display: flex;
+    }
   }
 
   .question-nav {
