@@ -26,6 +26,11 @@ gulp.task( 'scripts', function(){
   .pipe( gulp.dest('public/dist') );
 });
 
+gulp.task( 'font-awesome', function(){
+  return gulp.src('node_modules/font-awesome/fonts/*')
+    .pipe( gulp.dest('public/dist/font') );
+});
+
 gulp.task( 'less', function(){
   return gulp.src('less/app.less')
     .pipe( require('gulp-less')() )
@@ -64,4 +69,5 @@ gulp.task( 'watch', function(){
   gulp.watch( ['less/*.less', 'less/**/*.less'], ['less'] );
 });
 
-gulp.task( 'default', [ 'less', 'lint', 'scripts', 'connect', 'watch'] );
+gulp.task( 'build', [ 'font-awesome', 'less', 'lint', 'scripts' ] );
+gulp.task( 'default', [ 'build', 'connect', 'watch' ] );
