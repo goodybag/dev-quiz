@@ -46,8 +46,8 @@ function FooterBarView( logger, $el, options ){
       html.push('<div class="progress-indicator"></div>');
 
       html.push('<nav class="question-nav">');
-      html.push('  <button class="hide prev"><i class="fa fa-arrow-circle-left"></i></button>');
-      html.push('  <button class="hide next"><i class="fa fa-arrow-circle-right"></i></button>');
+      html.push('  <button class="hide prev"><i class="fa fa-arrow-left"></i></button>');
+      html.push('  <button class="hide next"><i class="fa fa-arrow-right"></i></button>');
       html.push('  <button class="hide finish"><i class="fa fa-check"></i></button>');
       html.push('  <button class="hide restart"><i class="fa fa-refresh"></i></button>');
       html.push('</nav>');
